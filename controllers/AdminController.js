@@ -1,13 +1,13 @@
-const { User } = require("../models");
+const { Admin } = require("../models");
 const bcrypt = require('bcrypt');
 
-const getUser = async (req, res, next) => {
-  const data = await User.findAll();
+const getAdmin = async (req, res, next) => {
+  const data = await Admin.findAll();
   return res.status(200).json(data);
 };
 
-const getUserDetail = async (req, res, next) => {
-  const data = await User.findOne({
+const getUAdminDetail = async (req, res, next) => {
+  const data = await Admin.findOne({
     where: {
       id: req.params.id,
     },
@@ -16,15 +16,15 @@ const getUserDetail = async (req, res, next) => {
   return res.status(200).json(data);
 };
 
-const addUser = async (req, res, next) => {
-  const { name, password, email, no_phone} = req.body;
+const addAdmin = async (req, res, next) => {
+  const { name, password, email} = req.body;
 
    // Hash password
    const salt = await bcrypt.genSalt(10);
    const hashedPassword = await bcrypt.hash(password, salt);
 
 
-  const data = await User.create({
+  const data = await Admin.create({
     name,
     password : hashedPassword,
     email,
@@ -34,10 +34,10 @@ const addUser = async (req, res, next) => {
   return res.status(200).json(data);
 };
 
-const updateUser = async (req, res, next) => {
-  const { name, password, email, no_phone} = req.body;
+const updateAdmin = async (req, res, next) => {
+  const { name, password, email} = req.body;
 
-  const data = await User.findOne({
+  const data = await Admin.findOne({
     where: {
       id: req.params.id,
     },
@@ -49,14 +49,14 @@ const updateUser = async (req, res, next) => {
   data.name = name;
   data.password = hashedPassword;
   data.email = email;
-  data.no_phone = no_phone;
+
 
   await data.save();
   return res.status(200).json(data);
 };
 
-const deleteUser = async (req, res, next) => {
-  const data = await User.findOne({
+const deleteAdmin = async (req, res, next) => {
+  const data = await Admin.findOne({
     where: {
       id: req.params.id,
     },
@@ -67,9 +67,9 @@ const deleteUser = async (req, res, next) => {
 };
 
 module.exports = {
-  getUser,
-  getUserDetail,
-  addUser,
-  updateUser,
-  deleteUser,
+  getAdmin,
+  getUAdminDetail,
+  addAdmin,
+  updateAdmin,
+  deleteAdmin,
 };
